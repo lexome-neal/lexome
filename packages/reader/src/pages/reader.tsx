@@ -18,6 +18,8 @@ import { DynamicContent } from '@/components/DynamicContent';
 import { styled } from '@/theme';
 import { animated, useSpring } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
+import { useQueryParams } from '@/hooks/useQueryParams';
+import { PreventSsr } from '@/components/PreventSsr';
 
 // const slideIn = stylex.keyframes({
 //   '0%': {transform: 'translateX(0%)'},
@@ -429,16 +431,16 @@ const PageWrapper = styled('main', {
   }
 })
 
-export default function Home() {
+export default function() {
+  const { bookId } = useQueryParams()
+
   return (
-    <>
+    <PreventSsr>
       <main>
-        <DynamicContent>
-          <BookProvider>
-            <Reader />
-          </BookProvider>
-        </DynamicContent>
+        <BookProvider bookId={bookId}>
+          <Reader />
+        </BookProvider>
       </main>
-    </>
+    </PreventSsr>
   )
 }
